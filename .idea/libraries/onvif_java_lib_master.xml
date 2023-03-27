@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="onvif-java-lib-master">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/onvif-java-lib-master.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/libs/onvif-java-lib-master.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/onvif-java-lib-master.jar!/" />
+    </SOURCES>
+  </library>
+</component>

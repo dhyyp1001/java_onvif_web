@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="customEMod">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/libs/customEMod.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/libs/customEMod.jar!/doc" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/libs/customEMod.jar!/EasyModbus/src" />
+    </SOURCES>
+  </library>
+</component>
