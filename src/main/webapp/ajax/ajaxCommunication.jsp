@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="webModbus.ModbusConnection"%>
+<%@ page import="webModbus.ModbusWrite"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -70,12 +71,20 @@ body{
 
 #start_btn {
     background-color: rgb(66, 170, 66);
-    display: block;
+    display: none;
+}
+
+#start_btn:active {
+	background-color: rgb(144, 196, 210);
 }
 
 #stop_btn {
     background-color: rgb(193, 17, 17);
     display: none;
+}
+
+#stop_btn:active {
+	background-color: rgb(144, 196, 210);
 }
 
 .tanks-custom {
@@ -91,8 +100,8 @@ body{
 
 #season {
     text-align: center;
-    margin-left: 225px;
-    margin-top: 50px;
+    margin-left: 105px;
+    margin-top: 60px;
     font-size: 40px;
 }
 #top_comp {
@@ -128,7 +137,7 @@ body{
             <input type="button" class="my_btn" id="ajaxConPostRButton" value="▶">
         </div>
         <div id="modbus_part">
-            <div class="modbus_status"><%=ModbusConnection.sprayStatus%></div>
+            <div class="modbus_status" id="modbus_status_id"><%=ModbusConnection.sprayStatus%></div>
             <input type="button" id="start_btn" class="my_btn modbus_btn" value="START">
             <input type="button" id="stop_btn" class="my_btn modbus_btn" value="STOP">
         </div>

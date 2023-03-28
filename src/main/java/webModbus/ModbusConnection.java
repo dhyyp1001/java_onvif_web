@@ -15,12 +15,15 @@ import java.io.InputStreamReader;
 
 public class ModbusConnection extends HttpServlet {
     final static int PORT = 502;
-    ModbusClient mc = new ModbusClient();
+    static ModbusClient mc = new ModbusClient();
     int[] holdingRegisters = new int[20];
 
     //write mapping
-    int startSpraying = 0x55;//85 살포시작
-    int stopEmergency = 0xcc;//204 긴급정지
+    static int startSpraying = 0x55;//85 살포시작 --202
+    static int stopEmergency = 0xcc;//204 긴급정지 --202
+    static int sprayGroup = 0x31;//49 그룹살포 --201
+    static int selectedPump = 1;// 1:A pump , 2 : B pump --203
+    static int nSprayTimes = 2; // --204
 
     //read mapping
     public static String season = "-";
@@ -70,9 +73,9 @@ public class ModbusConnection extends HttpServlet {
             reader.close();
 
             mc.Connect(data, PORT);
-            if(mc.isConnected()){
-            System.out.println("# modbus connection success, ip is : " + mc.getipAddress());
-            } else{
+            if (mc.isConnected()) {
+                System.out.println("# modbus connection success, ip is : " + mc.getipAddress());
+            } else {
                 System.out.println("# modbus connection fail.");
             }
         } catch (Exception e) {
@@ -93,6 +96,7 @@ public class ModbusConnection extends HttpServlet {
                 break;
         }
     }
+
     void seasonCheck(int seasonReg) {
         switch (seasonReg) {
             case 10:
