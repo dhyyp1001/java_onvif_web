@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 public class ModbusConnection extends HttpServlet {
     final static int PORT = 502;
     ModbusClient mc = new ModbusClient();
-    int[] holdingRegisters;
+    int[] holdingRegisters = new int[20];
 
     //write mapping
     int startSpraying = 0x55;//85 살포시작
@@ -28,11 +28,10 @@ public class ModbusConnection extends HttpServlet {
     public static int[] tanks = new int[2];
 
     //readRegisters mapping
-    int tankALevelReg = holdingRegisters[2];
-    int tankBLevelReg = holdingRegisters[3];
-    int seasonReg = holdingRegisters[16];
-    int sprayStatusReg = holdingRegisters[18];
-
+    int tankALevelReg;
+    int tankBLevelReg;
+    int seasonReg;
+    int sprayStatusReg;
 
     public ModbusConnection() {
         super();
@@ -42,12 +41,16 @@ public class ModbusConnection extends HttpServlet {
         try {
             Thread.sleep(2000);
             holdingRegisters = mc.ReadHoldingRegisters(0, 20);
+            tankALevelReg = holdingRegisters[2];
+            tankBLevelReg = holdingRegisters[3];
             tanks = new int[]{tankALevelReg, tankBLevelReg};
-            sprayStatusCheck(sprayStatusReg);
-            seasonCheck(seasonReg);
-            System.out.println("# tankGet success.");
 
-            //연결중요
+            sprayStatusReg = holdingRegisters[18];
+            sprayStatusCheck(sprayStatusReg);
+
+            seasonReg = holdingRegisters[16];
+            seasonCheck(seasonReg);
+            System.out.println("# Get info success.");
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -67,7 +70,11 @@ public class ModbusConnection extends HttpServlet {
             reader.close();
 
             mc.Connect(data, PORT);
+            if(mc.isConnected()){
             System.out.println("# modbus connection success, ip is : " + mc.getipAddress());
+            } else{
+                System.out.println("# modbus connection fail.");
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,10 +102,10 @@ public class ModbusConnection extends HttpServlet {
                 season = "하절기 오류 (제설용액)";
                 break;
             case 12:
-                sprayStatus = "동절기";
+                season = "동절기";
                 break;
             case 13:
-                sprayStatus = "하절기";
+                season = "하절기";
                 break;
         }
     }
