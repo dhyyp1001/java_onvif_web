@@ -55,9 +55,9 @@ body{
 }
 
 .modbus_status {
-    margin-left: 60px;
     font-size: 50px;
     color: white;
+    text-align: center;
 }
 
 #modbus_part {
@@ -91,31 +91,38 @@ body{
     margin-left: 80px;
 }
 
+#season {
+    float: left;
+    text-align: center;
+}
+
 </style>
 </head>
 <body>
 <div class="all_comp">
-    <div id="tanks">
-        <div class="text">Tank-A : <span id="variable1" class="text"><%=ModbusConnection.holdingRegisters[2]%></span></div>
-        <progress value=<%=ModbusConnection.holdingRegisters[2]%> max="100" class="tanks-custom" id="tank-a"></progress>
-        <div class="text">Tank-B : <span id="variable2" class="text"><%=ModbusConnection.holdingRegisters[3]%></span></div>
-        <progress value=<%=ModbusConnection.holdingRegisters[3]%> max="100" class="tanks-custom" id="tank-b"></progress>
+    <div id="top_comp">
+        <div id="tanks">
+            <div class="text">Tank A Level : <span class="text"><%=ModbusConnection.tanks[0]%></span></div>
+            <progress value=<%=ModbusConnection.tanks[0]%> max="100" class="tanks-custom" id="tank-a"></progress>
+            <div class="text">Tank B Level : <span class="text"><%=ModbusConnection.tanks[1]%></span></div>
+            <progress value=<%=ModbusConnection.tanks[1]%> max="100" class="tanks-custom" id="tank-b"></progress>
+        </div>
+        <div class="text" id="season"><%=ModbusConnection.season%></div>
     </div>
-<div id="arrow_btns">
-    <input type="button" class="space" value="">
-    <input type="button" class="my_btn" id="ajaxConPostUButton" value="▲">
-    <input type="button" class="space" value="">
-    <br>
-    <input type="button" class="my_btn" id="ajaxConPostLButton" value="◀">
-    <input type="button" class="my_btn" id="ajaxConPostDButton" value="▼">
-    <input type="button" class="my_btn" id="ajaxConPostRButton" value="▶">
-</div>
-<div id="modbus_part">
-    <div class="modbus_status"> 정지중 </div>
-    <input type="button" id="start_btn" class="my_btn modbus_btn" value="START">
-    <input type="button" id="stop_btn" class="my_btn modbus_btn" value="STOP">
-
-</div>
+    <div id="arrow_btns">
+        <input type="button" class="space" value="">
+        <input type="button" class="my_btn" id="ajaxConPostUButton" value="▲">
+        <input type="button" class="space" value="">
+        <br>
+        <input type="button" class="my_btn" id="ajaxConPostLButton" value="◀">
+        <input type="button" class="my_btn" id="ajaxConPostDButton" value="▼">
+        <input type="button" class="my_btn" id="ajaxConPostRButton" value="▶">
+    </div>
+    <div id="modbus_part">
+        <div class="modbus_status"><%=ModbusConnection.sprayStatus%></div>
+        <input type="button" id="start_btn" class="my_btn modbus_btn" value="START">
+        <input type="button" id="stop_btn" class="my_btn modbus_btn" value="STOP">
+    </div>
 </div>
 
 <script type="text/javascript" src="ajax/jquery-3.6.3.min.js"></script>
