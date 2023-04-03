@@ -21,6 +21,7 @@
         <filter-class>service.WebViewFilter</filter-class>
     </filter>
 
+
     <filter-mapping>
         <filter-name>CorsFilter</filter-name>
         <url-pattern>/*</url-pattern>
@@ -29,6 +30,7 @@
         <filter-name>WebViewFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
 
     <servlet>
         <servlet-name>OnvifController</servlet-name>
@@ -42,6 +44,10 @@
         <servlet-name>ModbusButtonFunc</servlet-name>
         <servlet-class>webModbus.ModbusButtonFunc</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginData</servlet-name>
+        <servlet-class>webDatabase.LoginData</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>OnvifController</servlet-name>
@@ -54,5 +60,9 @@
     <servlet-mapping>
         <servlet-name>ModbusButtonFunc</servlet-name>
         <url-pattern>/ModbusButtonFunc</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginData</servlet-name>
+        <url-pattern>/LoginData</url-pattern>
     </servlet-mapping>
 </web-app>
