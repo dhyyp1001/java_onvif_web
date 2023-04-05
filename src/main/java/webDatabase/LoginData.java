@@ -18,8 +18,8 @@ public class LoginData extends HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        String username = request.getParameter("dh");
-        String password = request.getParameter("dh");
+        String username = "dh";//request.getParameter("username");
+        String password = "dh";//request.getParameter("password");
         boolean authenticated = authenticationService.authenticate(username, password);
         if(authenticated){
             System.out.println("굳ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ"+username+"  "+password);

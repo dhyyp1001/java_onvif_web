@@ -1,5 +1,8 @@
 package webDatabase;
 
+import com.microsoft.sqlserver.jdbc.SQLServerDataSource;
+import com.microsoft.sqlserver.jdbc.SQLServerException;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,23 +12,23 @@ public class AuthenticationService {
     private List<SiteUsers> siteUsersList;
 
     public AuthenticationService() {
-        // initialize the list of users from the database
         siteUsersList = new ArrayList<>();
-        // connect to the database
-        Connection conn = getConnection();
-        // execute a query to retrieve all users
-        String query = "SELECT * FROM siteusers";
-        try (PreparedStatement stmt = conn.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
+        try {
+            Connection conn = getConnection();
+
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM siteusers");
+
             while (rs.next()) {
-                // create a User object from each row in the result set
-                String username = rs.getString("username");
-                String password = rs.getString("password");
-                SiteUsers siteUsers = new SiteUsers(username, password);
+                SiteUsers siteUsers = new SiteUsers(rs.getString("username"), rs.getString("password"));
                 siteUsersList.add(siteUsers);
+                System.out.println(rs.getString("username")+"  "+rs.getString("password"));
             }
+
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -38,17 +41,12 @@ public class AuthenticationService {
         return false;
     }
 
-    // helper method to get a database connection
-    private Connection getConnection() {
-        String url = "jdbc:sqlserver://;serverName=112.175.14.46;databaseName=daesang";
-        String user = "daesang";
-        String password = "Rudqhxpzm1";
-        try {
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            return DriverManager.getConnection(url, user, password);
-        } catch (ClassNotFoundException | SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
+    private Connection getConnection() throws SQLServerException {
+        SQLServerDataSource ds = new SQLServerDataSource();
+        ds.setURL("jdbc:sqlserver://;serverName=112.175.14.46;databaseName=daesang");
+        ds.setUser("daesang");
+        ds.setPassword("Rudqhxpzm1");
+        Connection con = ds.getConnection();
+        return con;
     }
 }
