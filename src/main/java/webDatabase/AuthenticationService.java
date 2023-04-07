@@ -9,12 +9,14 @@ import java.util.List;
 
 public class AuthenticationService {
 
+    Connection conn;
     private List<SiteUsers> siteUsersList;
+    private List<CamInfo> camInfoList;
 
     public AuthenticationService() {
         siteUsersList = new ArrayList<>();
         try {
-            Connection conn = getConnection();
+            conn = getConnection();
 
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery("SELECT * FROM siteusers");
@@ -22,7 +24,6 @@ public class AuthenticationService {
             while (rs.next()) {
                 SiteUsers siteUsers = new SiteUsers(rs.getString("username"), rs.getString("password"));
                 siteUsersList.add(siteUsers);
-                System.out.println(rs.getString("username")+"  "+rs.getString("password"));
             }
 
         } catch (SQLServerException e) {
@@ -48,5 +49,36 @@ public class AuthenticationService {
         ds.setPassword("Rudqhxpzm1");
         Connection con = ds.getConnection();
         return con;
+    }
+
+    public List<CamInfo> listLoad(String userId) {
+        camInfoList = new ArrayList<>();
+        try {
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT * FROM CamInfo WHERE Owner='"+userId+"' OR Manager='"+userId+"' OR Operator='"+userId+"'");
+
+            while (rs.next()) {
+                CamInfo camInfo = new CamInfo(
+                        rs.getString("sName"),
+                        rs.getString("CamIP"),
+                        rs.getString("CamRtsp"),
+                        rs.getString("CamHttp"),
+                        rs.getString("ModIP"),
+                        rs.getString("ModPort"),
+                        rs.getString("CamID"),
+                        rs.getString("CamPwd"),
+                        rs.getString("mediaUri"),
+                        rs.getString("Owner"),
+                        rs.getString("Manager"),
+                        rs.getString("Operator")
+                        );
+                camInfoList.add(camInfo);
+            }
+        } catch (SQLServerException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return camInfoList;
     }
 }

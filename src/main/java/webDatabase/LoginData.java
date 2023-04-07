@@ -1,9 +1,14 @@
 package webDatabase;
 
+import net.sf.json.JSONArray;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class LoginData extends HttpServlet {
     private AuthenticationService authenticationService;
@@ -17,14 +22,21 @@ public class LoginData extends HttpServlet {
 
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
-        String username = "dh";//request.getParameter("username");
-        String password = "dh";//request.getParameter("password");
-        boolean authenticated = authenticationService.authenticate(username, password);
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String requestId = request.getParameterNames().nextElement().split(" ")[0];
+        String requestPw = request.getParameterNames().nextElement().split(" ")[1];
+
+        boolean authenticated = authenticationService.authenticate(requestId, requestPw);
         if(authenticated){
-            System.out.println("굳ㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎㅎ"+username+"  "+password);
+            response.getWriter().write("ok");
+            System.out.println("Login success : username//"+requestId);
+            List<CamInfo> camInfoList = authenticationService.listLoad(requestId);
+
+            JSONArray jsonArray = new JSONArray().fromObject(camInfoList);
+            response.getWriter().write("//////"+ jsonArray);
         }else{
-            System.out.println("실패"+username+"  "+password);
+            response.getWriter().write("error");
+            System.out.println("Login fail : username//"+requestId);
         }
     }
 }

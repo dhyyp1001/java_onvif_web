@@ -5,7 +5,6 @@ var startBtn = document.getElementById('start_btn');
 var stopBtn = document.getElementById('stop_btn');
 var status = document.getElementById('modbus_status_id').innerText;
 
-
 $(document).ready(function() {
 	$('#ajaxConPostLButton').click(function() {
 		AjaxConPostLB();
@@ -17,8 +16,7 @@ $(document).ready(function() {
 		AjaxConPostUB();
 	})
 	$('#ajaxConPostDButton').click(function() {
-		/*AjaxConPostDB();*/
-		hiBtn();
+		AjaxConPostDB();
 	})
 
     if(status === '동작 대기'){
@@ -107,18 +105,6 @@ function AjaxStartBtn() {
 }
 function AjaxStopBtn() {
 	var url = ModbusButtonFuncUrlString;
-	$.ajax({
-		type: "POST",
-		url: url,
-		dataType: "jsonp",
-		jsonpCallback: "myCallback",
-		data: {
-		},
-	})
-}
-
-function hiBtn() {
-	var url = hi;
 	$.ajax({
 		type: "POST",
 		url: url,
