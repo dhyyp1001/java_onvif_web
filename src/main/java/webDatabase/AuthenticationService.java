@@ -44,9 +44,7 @@ public class AuthenticationService {
 
     private Connection getConnection() throws SQLServerException {
         SQLServerDataSource ds = new SQLServerDataSource();
-        ds.setURL("jdbc:sqlserver://;serverName=112.175.14.46;databaseName=daesang");
-        ds.setUser("daesang");
-        ds.setPassword("Rudqhxpzm1");
+
         Connection con = ds.getConnection();
         return con;
     }
